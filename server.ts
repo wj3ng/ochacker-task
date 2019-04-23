@@ -1,24 +1,32 @@
 // Imports
 import express from "express";
+import mongoose from "mongoose"; 
 
 
-const app: express.Application = express();
+const app = express();
 const port = 8080;
 
 
 // Functions 
-isValidEmail = (iStr: string) => /^\w+@[a-zA-Z_]+?\.[a-zA-Z]{2,3}$/.test(iStr);
+const isValidEmail = (iStr) => /^\w+@[a-zA-Z_]+?\.[a-zA-Z]{2,3}$/.test(iStr);
 
 
-// TODO: MongoDB 
+// MongoDB 
+mongoose.connect('mongodb://localhost:mongodb', {useNewUrlParser: true});
+
+const userSchema = new Schema({
+	email: String,
+	password: String
+});
+const user = mongoose.model('user', userSchema);
 
 
 // Routes
-app.post("/login", (req,res) => {
+app.post('/login', (req, res) => {
 
 });
 
-app.post("/createAccount", (req,res) => {
+app.post('/createAccount', (req, res) => {
 
 });
 
