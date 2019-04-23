@@ -16,7 +16,9 @@ mongoose.connect('mongodb://localhost:mongodb', {useNewUrlParser: true});
 
 const userSchema = new Schema({
 	email: String,
-	password: String
+	password: String,
+	birth: Date,
+	country: String
 });
 const user = mongoose.model('user', userSchema);
 
