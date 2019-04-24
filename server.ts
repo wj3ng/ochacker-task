@@ -1,6 +1,6 @@
 // Imports
-import express from 'express';
-import mongoose from 'mongoose'; 
+import * as express from 'express';
+import * as mongoose from 'mongoose';
 
 
 const app = express();
@@ -12,7 +12,7 @@ const isValidEmail = (iStr) => /^\w+@[a-zA-Z_]+?\.[a-zA-Z]{2,3}$/.test(iStr);
 
 
 // MongoDB 
-mongoose.connect('mongodb://localhost:mongodb', {useNewUrlParser: true});
+mongoose.connect('mongodb://localhost:mongodb/test', {useNewUrlParser: true});
 const userSchema = mongoose.Schema({
 	email: String,
 	password: String,

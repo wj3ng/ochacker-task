@@ -1,21 +1,21 @@
 "use strict";
 exports.__esModule = true;
 // Imports
-var express_1 = require("express");
-var mongoose_1 = require("mongoose");
-var app = express_1["default"]();
+var express = require("express");
+var mongoose = require("mongoose");
+var app = express();
 var port = 8080;
 // Functions 
 var isValidEmail = function (iStr) { return /^\w+@[a-zA-Z_]+?\.[a-zA-Z]{2,3}$/.test(iStr); };
 // MongoDB 
-mongoose_1["default"].connect('mongodb://localhost:mongodb', { useNewUrlParser: true });
-var userSchema = mongoose_1["default"].Schema({
+mongoose.connect('mongodb://localhost:mongodb/test', { useNewUrlParser: true });
+var userSchema = mongoose.Schema({
     email: String,
     password: String,
     birth: Date,
     country: String
 });
-var user = mongoose_1["default"].model('user', userSchema);
+var user = mongoose.model('user', userSchema);
 // Routes
 app.post('/api/login', function (req, res) {
     var body = req.body;
