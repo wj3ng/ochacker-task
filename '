@@ -1,0 +1,55 @@
+// Imports
+import express from "express";
+import mongoose from "mongoose"; 
+
+
+const app = express();
+const port = 8080;
+
+
+// Functions 
+const isValidEmail = (iStr) => /^\w+@[a-zA-Z_]+?\.[a-zA-Z]{2,3}$/.test(iStr);
+
+
+// MongoDB 
+mongoose.connect('mongodb://localhost:mongodb', {useNewUrlParser: true});
+
+const userSchema = new Schema({
+	email: String,
+	password: String,
+	birth: Date,
+	country: String
+});
+const user = mongoose.model('user', userSchema);
+
+
+// Routes
+app.post('/login', (req, res) => {
+	const body = req.body;
+
+	if (body.hasOwnProperty('email') && body.hasOwnProperty('password')) {
+
+		user.findOne({ email: body.email, password: body.password }, (err, obj) ==> {
+			if (err) {
+
+			}
+
+		});
+
+	} else {
+		res.send('false');
+	}
+
+});
+
+app.post('/createAccount', (req, res) => {
+	const body = req.body;
+
+});
+
+
+// Listen
+app.listen(port, () => {
+	console.log(`Listening on port ${port}`);
+});
+
