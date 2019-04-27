@@ -2,8 +2,10 @@
 exports.__esModule = true;
 // Imports
 var express = require("express");
+var bodyParser = require("body-parser");
 var mongoose = require("mongoose");
 var app = express();
+app.use(bodyParser.json());
 var port = 8080;
 // Functions 
 var isValidEmail = function (iStr) { return /^\w+@[a-zA-Z_]+?\.[a-zA-Z]{2,3}$/.test(iStr); };
@@ -19,6 +21,7 @@ var user = mongoose.model('user', userSchema);
 // Routes
 app.post('/api/login', function (req, res) {
     var body = req.body;
+    console.log("/api/login request:\n" + req.body);
     if (!body.hasOwnProperty('email') || !body.hasOwnProperty('password')) {
         return res.send('false');
     }
@@ -31,6 +34,7 @@ app.post('/api/login', function (req, res) {
 });
 app.post('/api/createAccount', function (req, res) {
     var body = req.body;
+    console.log("/api/createAccount request:\n" + body);
     if (!body.hasOwnProperty('email') || !body.hasOwnProperty('password') || !body.hasOwnProperty('birth') || !body.hasOwnProperty('country')) {
         return res.send('failure');
     }
