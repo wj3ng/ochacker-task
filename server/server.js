@@ -21,7 +21,7 @@ var user = mongoose.model('user', userSchema);
 // Routes
 app.post('/api/login', function (req, res) {
     var body = req.body;
-    console.log("/api/login request:\n" + req.body);
+    console.log('/api/login request received');
     if (!body.hasOwnProperty('email') || !body.hasOwnProperty('password')) {
         return res.send('false');
     }
@@ -34,11 +34,11 @@ app.post('/api/login', function (req, res) {
 });
 app.post('/api/createAccount', function (req, res) {
     var body = req.body;
-    console.log("/api/createAccount request:\n" + body);
+    console.log('/api/createAccount request received');
     if (!body.hasOwnProperty('email') || !body.hasOwnProperty('password') || !body.hasOwnProperty('birth') || !body.hasOwnProperty('country')) {
         return res.send('failure');
     }
-    if (isValidEmail(body.email)) {
+    if (!isValidEmail(body.email)) {
         return res.send('failure');
     }
     user.create({ email: body.email, password: body.password, birth: body.birth, country: body.country }, function (err, user) {
@@ -47,6 +47,21 @@ app.post('/api/createAccount', function (req, res) {
         }
         return res.status(200).send('success');
     });
+});
+app.post('/usersList', function (req, res) {
+    user.find({}, function (err, users) {
+        var userMap = {};
+        users.forEach(function (usr) {
+            userMap[usr._id] = usr;
+        });
+        res.send(userMap);
+    });
+});
+app.post('/dropCollection', function (req, res) {
+    user.remove({}, function (err) {
+        console.log('collection removed');
+    });
+    res.send('success');
 });
 // Listen
 app.listen(port, function () {

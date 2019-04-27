@@ -49,7 +49,7 @@ app.post('/api/createAccount', (req, res) => {
 	if (!body.hasOwnProperty('email') || !body.hasOwnProperty('password') || !body.hasOwnProperty('birth') || !body.hasOwnProperty('country')) {
 		return res.send('failure');
 	}
-	if (isValidEmail(body.email)) {
+	if (!isValidEmail(body.email)) {
 		return res.send('failure');
 	}
 
@@ -61,6 +61,22 @@ app.post('/api/createAccount', (req, res) => {
 	});
 });
 
+app.post('/api/usersList', (req, res) => {
+	user.find({}, (err, users) => {
+		let userMap = {};
+		users.forEach((usr) => {
+			userMap[usr._id] = usr;
+		});
+   		res.send(userMap);  
+	});
+});
+
+app.post('/api/dropCollection', (req, res) => {
+	user.remove({}, (err) => { 
+		console.log('collection removed');
+	});
+	res.send('success');
+});
 
 // Listen
 app.listen(port, () => {
