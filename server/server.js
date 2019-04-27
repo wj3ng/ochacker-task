@@ -41,14 +41,19 @@ app.post('/api/createAccount', function (req, res) {
     if (!isValidEmail(body.email)) {
         return res.send('failure');
     }
-    user.create({ email: body.email, password: body.password, birth: body.birth, country: body.country }, function (err, user) {
-        if (err) {
+    user.findOne({ email: body.email }, function (err, obj) {
+        if (obj) { // duplicate exists
             return res.send('failure');
         }
-        return res.status(200).send('success');
+        user.create({ email: body.email, password: body.password, birth: body.birth, country: body.country }, function (err, user) {
+            if (err) {
+                return res.send('failure');
+            }
+            return res.status(200).send('success');
+        });
     });
 });
-app.post('/usersList', function (req, res) {
+app.post('/api/usersList', function (req, res) {
     user.find({}, function (err, users) {
         var userMap = {};
         users.forEach(function (usr) {
@@ -57,7 +62,7 @@ app.post('/usersList', function (req, res) {
         res.send(userMap);
     });
 });
-app.post('/dropCollection', function (req, res) {
+app.post('/api/dropCollection', function (req, res) {
     user.remove({}, function (err) {
         console.log('collection removed');
     });

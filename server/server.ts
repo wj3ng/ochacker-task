@@ -53,11 +53,18 @@ app.post('/api/createAccount', (req, res) => {
 		return res.send('failure');
 	}
 
-	user.create({ email: body.email, password: body.password, birth: body.birth, country: body.country }, (err, user) => {
-		if (err) {
+	user.findOne({ email: body.email }, (err, obj) => {
+		if (obj) { // duplicate exists
 			return res.send('failure');
 		}
-		return res.status(200).send('success');
+
+		user.create({ email: body.email, password: body.password, birth: body.birth, country: body.country }, (err, user) => {
+			if (err) {
+				return res.send('failure');
+			}
+			return res.status(200).send('success');
+		});
+
 	});
 });
 
