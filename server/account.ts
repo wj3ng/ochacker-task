@@ -60,6 +60,9 @@ export const createAccount = (req, res) => {
 
 
 export const usersList = (req, res) => {
+
+	console.log('/api/usersList request received');
+
 	user.find({}, (err, users) => {
 		let userMap = {};
 		users.forEach((usr) => {
@@ -71,6 +74,9 @@ export const usersList = (req, res) => {
 
 
 export const dropCollection = (req, res) => {
+
+	console.log('/api/dropCollection request received');
+
 	user.remove({}, (err) => { 
 		console.log('collection removed');
 	});

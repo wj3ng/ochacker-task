@@ -46,6 +46,7 @@ exports.createAccount = function (req, res) {
     });
 };
 exports.usersList = function (req, res) {
+    console.log('/api/usersList request received');
     user.find({}, function (err, users) {
         var userMap = {};
         users.forEach(function (usr) {
@@ -55,6 +56,7 @@ exports.usersList = function (req, res) {
     });
 };
 exports.dropCollection = function (req, res) {
+    console.log('/api/dropCollection request received');
     user.remove({}, function (err) {
         console.log('collection removed');
     });
