@@ -1,5 +1,5 @@
 "use strict";
-exports.__esModule = true;
+Object.defineProperty(exports, "__esModule", { value: true });
 var mongoose = require("mongoose");
 var utils_1 = require("./utils");
 // MongoDB 
@@ -44,19 +44,4 @@ exports.createAccount = function (req, res) {
             return res.status(200).send('success');
         });
     });
-};
-exports.usersList = function (req, res) {
-    user.find({}, function (err, users) {
-        var userMap = {};
-        users.forEach(function (usr) {
-            userMap[usr._id] = usr;
-        });
-        res.send(userMap);
-    });
-};
-exports.dropCollection = function (req, res) {
-    user.remove({}, function (err) {
-        console.log('collection removed');
-    });
-    res.send('success');
 };

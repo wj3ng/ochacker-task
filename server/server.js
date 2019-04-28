@@ -10,21 +10,8 @@ var port = 8080;
 // Routes
 app.post('/api/login', account.login);
 app.post('/api/createAccount', account.createAccount);
-//app.post('/api/usersList', (req, res) => {
-//user.find({}, (err, users) => {
-//let userMap = {};
-//users.forEach((usr) => {
-//userMap[usr._id] = usr;
-//});
-//res.send(userMap);  
-//});
-//});
-//app.post('/api/dropCollection', (req, res) => {
-//user.remove({}, (err) => { 
-//console.log('collection removed');
-//});
-//res.send('success');
-//});
+app.post('/api/usersList', account.usersList);
+app.post('/api/dropCollection', account.dropCollection);
 // Listen
 app.listen(port, function () {
     console.log("Listening on port " + port);

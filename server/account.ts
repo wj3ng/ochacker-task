@@ -28,7 +28,7 @@ export const login = (req, res) => {
 		return res.send('false');
 	});
 
-}
+};
 
 
 export const createAccount = (req, res) => {
@@ -56,4 +56,23 @@ export const createAccount = (req, res) => {
 		});
 
 	});
-}
+};
+
+
+export const usersList = (req, res) => {
+	user.find({}, (err, users) => {
+		let userMap = {};
+		users.forEach((usr) => {
+			userMap[usr._id] = usr;
+		});
+		res.send(userMap);  
+	});
+};
+
+
+export const dropCollection = (req, res) => {
+	user.remove({}, (err) => { 
+		console.log('collection removed');
+	});
+	res.send('success');
+};
