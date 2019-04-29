@@ -1,8 +1,9 @@
 "use strict";
 exports.__esModule = true;
 var mongoose = require("mongoose");
+var argon2 = require("argon2");
 var utils_1 = require("./utils");
-// MongoDB 
+// MongoDB
 mongoose.connect('mongodb://localhost:mongodb/test', { useNewUrlParser: true });
 var userSchema = mongoose.Schema({
     email: String,
@@ -17,31 +18,42 @@ exports.login = function (req, res) {
     if (!body.hasOwnProperty('email') || !body.hasOwnProperty('password')) {
         return res.send('false');
     }
-    user.findOne({ email: body.email, password: body.password }, function (err, obj) {
-        if (obj) {
-            return res.send('true');
+    user.findOne({ email: body.email }, function (err, obj) {
+        if (obj) { // matching email is found
+            argon2.verify(obj.password, body.password).then(function (correct) {
+                if (correct) {
+                    res.send('true'); // why can't I use return here?
+                }
+                else {
+                    res.send('false');
+                }
+            });
         }
-        return res.send('false');
+        else {
+            res.send('false');
+        }
     });
 };
 exports.createAccount = function (req, res) {
     var body = req.body;
     console.log('/api/createAccount request received');
     if (!body.hasOwnProperty('email') || !body.hasOwnProperty('password') || !body.hasOwnProperty('birth') || !body.hasOwnProperty('country')) {
-        return res.send('failure');
+        return res.send('failure: fields missing');
     }
     if (!utils_1.isValidEmail(body.email)) {
-        return res.send('failure');
+        return res.send('failure: invalid email');
     }
     user.findOne({ email: body.email }, function (err, obj) {
         if (obj) { // duplicate exists
-            return res.send('failure');
+            return res.send('failure: email already exists');
         }
-        user.create({ email: body.email, password: body.password, birth: body.birth, country: body.country }, function (err, user) {
-            if (err) {
-                return res.send('failure');
-            }
-            return res.status(200).send('success');
+        argon2.hash(body.password).then(function (hash) {
+            user.create({ email: body.email, password: hash, birth: body.birth, country: body.country }, function (err, user) {
+                if (err) {
+                    return res.send('failure: an error occured');
+                }
+                return res.status(200).send('success');
+            });
         });
     });
 };
