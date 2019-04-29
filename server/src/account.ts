@@ -3,7 +3,6 @@ import * as argon2 from 'argon2';
 import { isValidEmail } from './utils';
 
 // MongoDB
-mongoose.connect('mongodb://localhost:mongodb/test', {useNewUrlParser: true});
 const userSchema = mongoose.Schema({
 	email: String,
 	password: String,
