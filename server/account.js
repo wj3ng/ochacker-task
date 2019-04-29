@@ -15,7 +15,7 @@ var user = mongoose.model('user', userSchema);
 exports.login = function (req, res) {
     var body = req.body;
     console.log('/api/login request received');
-    if (!body.hasOwnProperty('email') || !body.hasOwnProperty('password')) {
+    if (!body.email || !body.password) {
         return res.send('false');
     }
     user.findOne({ email: body.email }, function (err, obj) {
@@ -37,7 +37,7 @@ exports.login = function (req, res) {
 exports.createAccount = function (req, res) {
     var body = req.body;
     console.log('/api/createAccount request received');
-    if (!body.hasOwnProperty('email') || !body.hasOwnProperty('password') || !body.hasOwnProperty('birth') || !body.hasOwnProperty('country')) {
+    if (!body.email || !body.password || !body.birth || !body.country) {
         return res.send('failure: fields missing');
     }
     if (!utils_1.isValidEmail(body.email)) {

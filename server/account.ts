@@ -18,7 +18,7 @@ export const login = (req, res) => {
 	const body = req.body;
 	console.log('/api/login request received');
 
-	if (!body.hasOwnProperty('email') || !body.hasOwnProperty('password')) {
+	if (!body.email || !body.password) {
 		return res.send('false');
 	}
 
@@ -44,7 +44,7 @@ export const createAccount = (req, res) => {
 	const body = req.body;
 	console.log('/api/createAccount request received');
 
-	if (!body.hasOwnProperty('email') || !body.hasOwnProperty('password') || !body.hasOwnProperty('birth') || !body.hasOwnProperty('country')) {
+	if (!body.email || !body.password || !body.birth || !body.country) {
 		return res.send('failure: fields missing');
 	}
 	if (!isValidEmail(body.email)) {
